@@ -1,0 +1,4 @@
+web01   22  root    root_passwd
+web02   22  root    root_passwd
+ha01    3222    sa01    sa01_passwd
+db01    3222    sa01    sa01_passwd

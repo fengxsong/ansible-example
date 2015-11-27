@@ -1,0 +1,3 @@
+- hosts: mongodb_servers
+  roles:
+  - role: common

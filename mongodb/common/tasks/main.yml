@@ -1,0 +1,25 @@
+- name: Create the mongodb-org-3.0.repo
+  copy: src=mongodb-org-3.0.repo.j2 dest=/etc/yum.repos.d/mongodb-org-3.0.repo
+
+- name: Create the mongod user
+  user: name=mongod comment="MongoD"
+
+- name: Create the data directory for the namenode metadata
+  file: path={{ mongodb_datadir_prefix }} owner=mongod group=mongod state=directory
+
+- name: Install the mongodb package
+  yum: name={{ item }} state=installed
+  with_items:
+    - mongodb-org
+    - python
+    - python-devel
+
+- name: Install python-pip via easy_install
+  easy_install: name=pip
+
+- name: Install the latest pymongo package
+  pip: name=pymongo state=latest use_mirrors=no
+
+- name: Configure the /etc/mongod.conf file
+  template: src=mongod.conf.j2 dest=/etc/mongod.conf
+  notify: restart mongod

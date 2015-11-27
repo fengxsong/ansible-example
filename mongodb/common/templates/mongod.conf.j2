@@ -1,0 +1,46 @@
+# mongod.conf
+
+# where to write logging data.
+systemLog:
+  destination: file
+  logAppend: true
+  logRotate: reopen
+  path: /var/log/mongodb/mongod-{{ inventory_hostname }}.log
+
+# Where and how to store data.
+storage:
+  dbPath: {{ mongodb_datadir_prefix }}
+  journal:
+    enabled: true
+#  engine:
+#  mmapv1:
+#  wiredTiger:
+
+# how the process runs
+processManagement:
+  fork: true
+  pidFilePath: /var/run/mongodb/mongod.pid
+
+# network interfaces
+net:
+  port: {{ mongod_port }}
+#  bindIp: 127.0.0.1  # Listen to local interface only, comment to listen on all interfaces.
+
+#  http:
+#    enabled: False
+#    JSONPEnabled: False
+#    RESTInterfaceEnabled: False
+
+#security:
+
+#operationProfiling:
+
+#replication:
+
+#sharding:
+
+## Enterprise-Only Options
+
+#auditLog:
+
+#snmp:
