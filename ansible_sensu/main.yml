@@ -1,0 +1,12 @@
+- hosts: sensu_server
+  become: yes
+  roles:
+  - rabbitmq
+  - redis
+  - sensu_server
+  - uchiwa
+
+- hosts: sensu_client
+  become: yes
+  roles:
+  - sensu_client

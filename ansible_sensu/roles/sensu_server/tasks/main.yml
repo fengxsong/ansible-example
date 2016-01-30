@@ -1,0 +1,27 @@
+- name: install Repository's key
+  apt_key: url=http://repositories.sensuapp.org/apt/pubkey.gpg state=present
+
+- name: add Sensu official Repository
+  copy: src=sensu.list dest=/etc/apt/sources.list.d/
+  register: aptrepo
+
+- name: refresh apt cache
+  apt: update_cache=yes
+  when: aptrepo.changed
+
+- name: Install Sensu
+  apt: name=sensu state=present
+
+- name: create config file
+  template: src=config.json.j2 dest=/etc/sensu/config.json mode=0640
+  notify:
+    restart sensu server
+
+- name: running Sensu
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+    - sensu-server
+    - sensu-api
+
+- name: change owner of /etc/sensu
+  file: path=/etc/sensu owner=sensu group=sensu

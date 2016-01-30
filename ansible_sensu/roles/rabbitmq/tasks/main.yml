@@ -1,0 +1,20 @@
+- name: Install erlang & RabbitMQ
+  apt: name="{{ item }}" state=present
+  with_items:
+    - rabbitmq-server
+    - erlang
+
+- name: Start RabbitMQ Service
+  service: name=rabbitmq-server state=started enabled=yes
+
+- name: Configure RabbitMQ / Create vhost
+  rabbitmq_vhost: name={{ sensu_server_rabbitmq_vhost }} state=present
+
+- name: Configure RabbitMQ / Create user
+  rabbitmq_user: user={{ sensu_server_rabbitmq_user }}
+                 password={{ sensu_server_rabbitmq_password }}
+                 vhost={{ sensu_server_rabbitmq_vhost }}
+                 configure_priv=.*
+                 read_priv=.*
+                 write_priv=.*
+                 state=present

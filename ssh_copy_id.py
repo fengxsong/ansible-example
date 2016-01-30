@@ -24,5 +24,6 @@ def ssh_copy_id_via_paramiko(host, user, pwd, p=22, timeout=8):
 if __name__ == '__main__':
     with open('hosts') as f:
         for line in f.readlines():
-            hostname, port, username, password = line.split()
-            ssh_copy_id_via_paramiko(hostname, username, password, int(port))
+            if not line.startswith('#'):
+                hostname, port, username, password = line.split()
+                ssh_copy_id_via_paramiko(hostname, username, password, int(port))

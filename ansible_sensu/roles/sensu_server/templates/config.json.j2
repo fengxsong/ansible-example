@@ -1,0 +1,17 @@
+{
+  "rabbitmq": {
+    "host": "{{ sensu_server_rabbitmq_hostname }}",
+    "vhost": "{{ sensu_server_rabbitmq_vhost }}",
+    "user": "{{ sensu_server_rabbitmq_user }}",
+    "password": "{{ sensu_server_rabbitmq_password }}"
+  },
+  "redis": {
+    "host": "{{ sensu_server_redis_host }}"
+  },
+  "api": {
+    "host": "{{ sensu_server_api_host }}",
+    "port": {{ sensu_server_api_port }},
+    "user": "{{ sensu_server_api_user }}",
+    "password": "{{ sensu_server_api_password }}"
+  }
+}

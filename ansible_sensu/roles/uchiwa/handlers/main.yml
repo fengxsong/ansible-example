@@ -1,0 +1,4 @@
+- name: restart uchiwa service
+  service: name=uchiwa state=restarted
+  when:
+    sensu_install_uchiwa

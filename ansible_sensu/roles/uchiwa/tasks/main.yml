@@ -1,0 +1,15 @@
+- name: install uchiwa
+  apt: name=uchiwa state=present
+
+- name: create dashboard config file
+  template:
+    src=uchiwa.json.j2
+    dest=/etc/sensu/uchiwa.json
+    owner=sensu
+    group=sensu
+    mode=0640
+  notify:
+    - restart uchiwa service
+
+- name: running uchiwa
+  service: name=uchiwa state=started enabled=yes

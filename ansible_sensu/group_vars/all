@@ -1,0 +1,28 @@
+sensu_install_client: true
+sensu_install_server: true
+sensu_install_uchiwa: true
+
+sensu_user:  sensu
+sensu_group: sensu
+
+sensu_client_hostname:           "{{ ansible_hostname }}"
+sensu_client_address:            "{{ ansible_default_ipv4.address }}"
+sensu_client_subscription_names: [test]
+
+sensu_server_redis_host: "127.0.0.1"
+
+sensu_server_api_host:     "127.0.0.1"
+sensu_server_api_port:     4567
+sensu_server_api_user:     "sensu"
+sensu_server_api_password: "placeholder"
+
+sensu_server_rabbitmq_vhost:    "/sensu"
+sensu_server_rabbitmq_hostname: "sensu_server"
+sensu_server_rabbitmq_user: sensu
+sensu_server_rabbitmq_password: secret
+
+sensu_server_dashboard_host:     "0.0.0.0"
+sensu_server_dashboard_port:     "3000"
+sensu_server_dashboard_user:     "uchiwa"
+sensu_server_dashboard_password: "placeholder"
+sensu_server_dashboard_refresh:  60

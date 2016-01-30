@@ -1,0 +1,19 @@
+- name: install sensu Repository
+  copy: src=sensu.repo dest=/etc/yum.repos.d/sensu.repo
+
+- name: install sensu
+  yum: name=sensu state=present
+
+- name: create config file
+  template: src=config.json.j2 dest=/etc/sensu/config.json
+
+- name: create clinet file
+  template: src=client.json.j2 dest=/etc/sensu/conf.d/ mode=0640
+  notify:
+    restart sensu client
+
+- name: change owner of /etc/sensu
+  file: path=/etc/sensu owner=sensu group=sensu
+
+- name: start sensu-client
+  service: name=sensu-client state=started enabled=yes

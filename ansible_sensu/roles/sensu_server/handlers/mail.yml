@@ -1,0 +1,7 @@
+- name: restart sensu server
+  service: name={{ item }} state=restarted
+  with_items:
+    - sensu-server
+    - sensu-api
+  when:
+    sensu_install_server

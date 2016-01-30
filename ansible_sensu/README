@@ -1,0 +1,5 @@
+## usage(run as a sudoer):
+
+    vim group_vars/all
+    # define variables
+    ansible-playbook -K main.yml #(--limit=sensu_server/sensu_client)
