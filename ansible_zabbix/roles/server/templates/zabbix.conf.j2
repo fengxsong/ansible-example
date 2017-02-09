@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    server_name {{ zabbix_domain_name }};
+    root   {{ zabbix_frontend_dir }};
+    index  index.html index.php;
+    #access_log	off;
+
+    location ~ \.php$ {
+        fastcgi_pass   {{ phpfpm_sock }};
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+}

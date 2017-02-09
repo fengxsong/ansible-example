@@ -1,0 +1,28 @@
+- name: install zabbix_server from source
+  command: ./configure --prefix={{ zabbix_prefix }} --enable-server --enable-agent --with-mysql --with-libcurl --with-libxml2 {% if enable_snmpd %}--with-net-snmp{% endif %} && make install
+  args:
+    chdir: /tmp/zabbix/
+  register: install_server
+
+- name: configure zabbix_server.conf
+  when: install_server.rc == 0
+
+- name: create nginx vhost
+  template: src=zabbix.conf.j2 dest={{ ngxconf_dir }}/zabbix.conf
+  when: install_server.rc == 0
+
+- name: create mysql database and user
+  mysql_db: name={{ zb_dbname }} state=present encoding={{ zb_charset }}
+  mysql_user:
+    name: {{ zb_dbuser }}
+    password: {{ zb_dbpassword }}
+    priv: '{{ zb_dbname }}.*:ALL'
+    host: {{ zb_dbhost }}
+    state: present
+  when: install_server.rc == 0
+
+- name: generate init.d file
+  when: install_server.rc == 0
+
+- name: enable zabbix_server service
+  when: install_server.rc == 0

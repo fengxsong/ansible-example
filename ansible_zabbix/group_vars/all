@@ -1,0 +1,16 @@
+zabbix_source_dl: https://nchc.dl.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/3.2.3/zabbix-3.2.3.tar.gz
+zabbix_prefix: /usr/local/zabbix
+zabbix_user: zabbix
+enable_snmpd: true
+snmpd_community: public
+zabbix_domain_name: z.example.com
+zabbix_frontend_dir: /data/web/zabbix
+ngxconf_dir: /usr/local/openresty/nginx/conf/sites_enabled
+phpfpm_sock: 127.0.0.1:9000
+
+
+zb_dbhost: localhost
+zb_dbname: zabbix
+zb_dbuser: zabbix_ad
+zb_dbpassword: zabbix_password
+zb_charset: utf8

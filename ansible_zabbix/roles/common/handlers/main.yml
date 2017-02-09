@@ -1,0 +1,6 @@
+- name: configure snmpd.conf file
+  template: src=snmpd.conf.j2 dest=/etc/snmp/snmpd.conf
+  notify: restart snmpd
+
+- name: restart snmpd
+  service: name=snmpd state=restarted

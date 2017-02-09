@@ -1,0 +1,21 @@
+- name: Download zabbix source package
+  get_url: url={{ zabbix_source_dl }} dest=/tmp/zabbix-3.2.3.tar.gz
+
+- name: Unzip
+  command: /bin/tar /tmp/zabbix-3.2.3.tar.gz -C /tmp/zabbix
+  args:
+    creates: /tmp/zabbix
+
+- name: Create zabbix user
+  user: name={{ zabbix_user }} shell=/sbin/nologin groups=zabbix
+
+- name: Install snmp service
+  yum: name={{ item }} state=present
+  with_items:
+    - net-snmp
+    - net-snmp-devel
+    - net-snmp-libs
+    - net-snmp-utils
+  when: enable_snmpd
+  notify: 
+    - configure snmpd.conf file
