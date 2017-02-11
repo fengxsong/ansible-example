@@ -1,0 +1,5 @@
+- hosts: dockers
+  gather_facts: False
+  become: True
+  roles:
+  - role: docker

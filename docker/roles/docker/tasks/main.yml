@@ -1,0 +1,49 @@
+- name: make sure docker-selinux remove
+  yum: name=docker-selinux state=absent
+
+- name: disabled selinux
+  selinux: state=disabled
+
+- name: disabled firewalld.service
+  systemd: name=firewalld state=stopped enabled=no
+
+- name: create docker group
+  group: name=docker state=present
+
+- name: set current user to docker group
+  command: usermod -aG docker {{ cur_user }}
+
+- name: get docker.repo
+  get_url:
+    url: https://docs.docker.com/engine/installation/linux/repo_files/centos/docker.repo
+    dest: /etc/yum.repos.d/docker.repo
+
+- name: install package
+  yum: name={{ item }} state=present
+  with_items:
+    - yum-utils
+    - vim
+    - lsof
+    - dstat
+    - gcc
+    - docker-engine
+
+- name: copy docker.socket
+  copy: src=docker.socket dest=/usr/lib/systemd/system/docker.socket mode=0644
+
+- name: generate docker.service
+  template: src=docker.service.j2 dest=/usr/lib/systemd/system/docker.service  mode=0644
+  
+- name: start service
+  systemd: name=docker state=started daemon_reload=yes enabled=yes
+
+- name: check for pip
+  stat: path=/usr/bin/pip
+  register: pip_bin
+
+- name: get pip
+  get_url:
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: /tmp/get-pip.py
+  when: pip_bin.stat.exists == False
+  notify: install python pip

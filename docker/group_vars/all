@@ -1,0 +1,2 @@
+cur_user: fengxsong
+docker_opts: "-H fd:// -D -H tcp://0.0.0.0:2376 -g /u01"
