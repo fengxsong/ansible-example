@@ -37,6 +37,21 @@
 - name: start service
   systemd: name=docker state=started daemon_reload=yes enabled=yes
 
+- name: check for docker-compose
+  stat: path=/usr/local/sbin/docker-compose
+  register: compose_bin
+
+- name: copy hosts file
+  copy: src=hosts dest=/etc/hosts mode=0644
+
+- name: install docker-compose
+#  get_url:
+#    url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}
+#    dest: /usr/local/sbin/docker-compose
+#    mode: 0755
+  copy: src=docker-compose-Linux-x86_64 dest=/usr/local/sbin/docker-compose mode=0755
+  when: compose_bin.stat.exists == False
+
 - name: check for pip
   stat: path=/usr/bin/pip
   register: pip_bin

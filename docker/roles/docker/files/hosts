@@ -1,0 +1,6 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+192.168.1.241 docker01.local
+192.168.1.244 docker02.local
+192.168.1.245 docker03.local
+192.168.1.246 docker04.local
